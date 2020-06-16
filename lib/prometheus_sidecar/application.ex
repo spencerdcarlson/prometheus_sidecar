@@ -9,6 +9,10 @@ defmodule PrometheusSidecar.Application do
 
   def start(_type, _args) do
     children = [
+      # This is a copy of how plug_cowboy starts and configures ranch
+      # Currently we are configuring it for "http"
+      # See https://github.com/elixir-plug/plug_cowboy/blob/2fb3285ea8f0e5302a5ab2b62abf9bab797c9b98/lib/plug/cowboy.ex#L173
+      # for http vs https settings
       :ranch.child_spec(@ranch_ref, :ranch_tcp, transport_opts(), :cowboy_clear, proto_opts())
     ]
 
