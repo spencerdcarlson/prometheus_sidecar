@@ -15,15 +15,17 @@ defmodule PrometheusSidecar.MixProject do
   def application do
     [
       extra_applications: [:logger],
-      mod: {PrometheusSidecar.Application, []}
+      mod: {PrometheusSidecar.Application, []},
+      start_phases: [{:ranch, []}, {:plug_exporter, []}]
     ]
   end
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
+      {:plug_cowboy, "~> 2.3"},
+      {:ranch, "~> 1.7"},
+      {:prometheus_plugs, "~> 1.1"}
     ]
   end
 end
