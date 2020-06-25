@@ -8,20 +8,20 @@ defmodule PrometheusSidecar.Endpoint do
   # a custom endpoint or basic auth
   plug(PrometheusSidecar.PlugExporter)
 
-  # These make the below routes available
+  # These make the custom routes below available
   plug(:match)
   plug(:dispatch)
 
   get "/available" do
     conn
     |> put_resp_header("Content-Type", "application/json")
-    |> send_resp(200, "{}")
+    |> send_resp(200, "OK")
   end
 
   get "/health" do
     conn
     |> put_resp_header("Content-Type", "application/json")
-    |> send_resp(200, "{}")
+    |> send_resp(200, "OK")
   end
 
   match _ do
