@@ -35,7 +35,7 @@ defmodule PrometheusSidecar.Application do
          %{
            max_connections: Env.max_connections(),
            num_acceptors: 100,
-           socket_opts: [port: Env.port()]
+           socket_opts: [port: Env.port()] |> Keyword.merge(Env.http())
          }, :cowboy_clear, protocol_opts()}
 
       :https ->
@@ -43,11 +43,15 @@ defmodule PrometheusSidecar.Application do
          %{
            max_connections: Env.max_connections(),
            num_acceptors: 100,
-           socket_opts: [
-             port: Env.port(),
-             next_protocols_advertised: ["h2", "http/1.1"],
-             alpn_preferred_protocols: ["h2", "http/1.1"]
-           ]
+           socket_opts:
+             [
+               alpn_preferred_protocols: ["h2", "http/1.1"],
+               next_protocols_advertised: ["h2", "http/1.1"],
+               reuse_sessions: true,
+               secure_renegotiate: true,
+               port: Env.port()
+             ]
+             |> Keyword.merge(Env.https())
          }, :cowboy_tls, protocol_opts()}
     end
   end

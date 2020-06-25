@@ -6,8 +6,7 @@ defmodule PrometheusSidecar.Env do
   @app :prometheus_sidecar
   @defaults [
     port: 5001,
-    max_connections: 16_384,
-    scheme: :http
+    max_connections: 16_384
   ]
 
   def library_version do
@@ -24,9 +23,10 @@ defmodule PrometheusSidecar.Env do
   end
 
   def scheme do
-    "PROMETHEUS_SIDECAR_SCHEME"
-    |> env(:scheme)
-    |> to_atom()
+    case Application.get_env(@app, :https, nil) do
+      nil -> :http
+      _ -> :https
+    end
   end
 
   def max_connections do
@@ -34,6 +34,9 @@ defmodule PrometheusSidecar.Env do
     |> env(:max_connections)
     |> to_number(@defaults[:max_connections])
   end
+
+  def http, do: Application.get_env(@app, :http, [])
+  def https, do: Application.get_env(@app, :https, [])
 
   defp env(string, key, default \\ nil) do
     (System.get_env(string) ||
@@ -68,7 +71,7 @@ defmodule PrometheusSidecar.Env do
 
   defp to_number(_, default), do: default
 
-  defp to_atom(atom) when is_atom(atom), do: atom
-  defp to_atom(string) when is_bitstring(string), do: String.to_atom(string)
-  defp to_atom(_), do: :error
+  #  defp to_atom(atom) when is_atom(atom), do: atom
+  #  defp to_atom(string) when is_bitstring(string), do: String.to_atom(string)
+  #  defp to_atom(_), do: :error
 end
