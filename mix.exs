@@ -10,6 +10,8 @@ defmodule PrometheusSidecar.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       deps: deps(),
       package: package(),
+      description:
+        "Simple web server (ranch) that allows your application to be scraped by prometheus",
 
       # Docs
       name: "Prometheus Sidecar",

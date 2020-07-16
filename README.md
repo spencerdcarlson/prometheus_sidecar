@@ -1,6 +1,6 @@
 # PrometheusSidecar
 
-Simple webserver (ranch) that allows your application to be scraped by prometheus
+Simple web server (ranch) that allows your application to be scraped by prometheus
 
 ## Installation
 
