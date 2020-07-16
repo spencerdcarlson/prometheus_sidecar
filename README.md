@@ -1,6 +1,6 @@
 # PrometheusSidecar
 
-**TODO: Add description**
+Simple webserver (ranch) that allows your application to be scraped by prometheus
 
 ## Installation
 

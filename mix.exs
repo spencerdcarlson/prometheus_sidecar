@@ -8,7 +8,25 @@ defmodule PrometheusSidecar.MixProject do
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
       elixirc_paths: elixirc_paths(Mix.env()),
-      deps: deps()
+      deps: deps(),
+      package: package(),
+
+      # Docs
+      name: "Prometheus Sidecar",
+      source_url: "https://github.com/spencerdcarlson/prometheus_sidecar",
+      docs: [
+        extras: ["README.md"]
+      ]
+    ]
+  end
+
+  defp package() do
+    [
+      licenses: ["MIT"],
+      files: ~w(CHANGELOG* config LICENSE* README* lib mix.exs priv .formatter.exs),
+      links: %{
+        "GitHub" => "https://github.com/spencerdcarlson/prometheus_sidecar"
+      }
     ]
   end
 
@@ -29,7 +47,8 @@ defmodule PrometheusSidecar.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:ranch, "~> 1.7"},
       {:prometheus_plugs, "~> 1.1"},
-      {:credo, "~> 1.4", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:ex_doc, "~> 0.22", only: :dev, runtime: false}
     ]
   end
 end
