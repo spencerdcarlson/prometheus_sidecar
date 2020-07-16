@@ -26,7 +26,7 @@ defmodule PrometheusSidecar.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:plug_cowboy, "~> 2.3"},
+      {:plug_cowboy, "~> 2.0"},
       {:ranch, "~> 1.7"},
       {:prometheus_plugs, "~> 1.1"},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false}

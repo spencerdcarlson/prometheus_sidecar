@@ -6,7 +6,8 @@ defmodule PrometheusSidecar.Env do
   @app :prometheus_sidecar
   @defaults [
     port: 5001,
-    max_connections: 16_384
+    max_connections: 16_384,
+    enable_server: true
   ]
 
   def library_version do
@@ -14,6 +15,12 @@ defmodule PrometheusSidecar.Env do
     |> Application.spec()
     |> Keyword.get(:vsn)
     |> to_string()
+  end
+
+  def enable_server? do
+    "PROMETHEUS_SIDECAR_ENABLE_SERVER"
+    |> env(:enable_server)
+    |> to_boolean()
   end
 
   def port do
@@ -70,6 +77,10 @@ defmodule PrometheusSidecar.Env do
   end
 
   defp to_number(_, default), do: default
+
+  defp to_boolean(boolean) when is_boolean(boolean), do: boolean
+  defp to_boolean("true"), do: true
+  defp to_boolean(_), do: false
 
   #  defp to_atom(atom) when is_atom(atom), do: atom
   #  defp to_atom(string) when is_bitstring(string), do: String.to_atom(string)

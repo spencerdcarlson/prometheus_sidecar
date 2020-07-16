@@ -10,17 +10,30 @@ defmodule PrometheusSidecar.Application do
 
   def start(_type, _args) do
     []
+    |> add_connection_drainer(@ranch_ref)
     |> add_ranch(@ranch_ref)
     |> Supervisor.start_link(strategy: :one_for_one, name: PrometheusSidecar.Supervisor)
   end
 
   defp add_ranch(children, reference) do
-    case ranch_args(reference) do
-      {ref, transport, trans_opts, protocol, proto_opts} ->
-        [:ranch.child_spec(ref, transport, trans_opts, protocol, proto_opts) | children]
+    if Env.enable_server?() do
+      case ranch_args(reference) do
+        {ref, transport, trans_opts, protocol, proto_opts} ->
+          [:ranch.child_spec(ref, transport, trans_opts, protocol, proto_opts) | children]
 
-      _ ->
-        children
+        _ ->
+          children
+      end
+    else
+      children
+    end
+  end
+
+  defp add_connection_drainer(children, ref) do
+    if Env.enable_server?() do
+      [{RanchConnectionDrainer, ranch_ref: ref, shutdown: 30_000} | children]
+    else
+      children
     end
   end
 
@@ -68,22 +81,31 @@ defmodule PrometheusSidecar.Application do
   end
 
   def start_phase(:ranch, _, _) do
-    case :ranch_server.get_addr(@ranch_ref) do
-      {host, port} ->
-        Logger.info(
-          "Ranch Server is running on #{to_string(:inet_parse.ntoa(host))}:#{inspect(port)}"
-        )
+    unless is_nil(Enum.find(:ranch.info(), fn {ref, _} -> ref == @ranch_ref end)) do
+      # :ranch_server.get_addr/1 will raise and ArgumentError if the ref does not exist
+      case :ranch_server.get_addr(@ranch_ref) do
+        {host, port} ->
+          Logger.info(
+            "[prometheus_sidecar] Started a ranch Server running on #{
+              to_string(:inet_parse.ntoa(host))
+            }:#{inspect(port)}"
+          )
 
-      error ->
-        Logger.error("Error getting ranch server info. " <> inspect(error))
+        error ->
+          Logger.error("[prometheus_sidecar] Error getting ranch server info. " <> inspect(error))
+      end
     end
 
     :ok
+  rescue
+    _ -> :ok
   end
 
   def start_phase(:plug_exporter, _, _) do
     PrometheusSidecar.PlugExporter.setup()
     :ok
+  rescue
+    _ -> :ok
   end
 
   def start_phase(_, _, _), do: :ok
