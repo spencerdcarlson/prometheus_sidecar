@@ -14,5 +14,5 @@ def deps do
 end
 ```
 
-See [hexdocs.pm/prometheus_sidecar](https://hexdocs.pm/prometheus_sidecar) for documentation
+See [prometheus_sidecar](https://hexdocs.pm/prometheus_sidecar) on [hexdocs.pm](https://hexdocs.pm) for documentation
 
