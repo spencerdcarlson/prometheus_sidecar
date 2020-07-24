@@ -1,10 +1,12 @@
 defmodule PrometheusSidecar.MixProject do
   use Mix.Project
 
+  @version "0.1.1"
+
   def project do
     [
       app: :prometheus_sidecar,
-      version: "0.1.0",
+      version: @version,
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -16,9 +18,7 @@ defmodule PrometheusSidecar.MixProject do
       # Docs
       name: "Prometheus Sidecar",
       source_url: "https://github.com/spencerdcarlson/prometheus_sidecar",
-      docs: [
-        extras: ["README.md"]
-      ]
+      docs: docs()
     ]
   end
 
@@ -29,6 +29,14 @@ defmodule PrometheusSidecar.MixProject do
       links: %{
         "GitHub" => "https://github.com/spencerdcarlson/prometheus_sidecar"
       }
+    ]
+  end
+
+  defp docs() do
+    [
+      source_ref: "v#{@version}",
+      main: "readme",
+      extras: ["README.md","guides/HTTPS.md"]
     ]
   end
 
