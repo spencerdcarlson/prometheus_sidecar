@@ -35,8 +35,11 @@ defmodule PrometheusSidecar.MixProject do
   defp docs() do
     [
       source_ref: "v#{@version}",
-      main: "Overview",
-      extras: ["guides/Overview.md", "guides/HTTPS.md"]
+      main: "overview",
+      extra_section: "GUIDES",
+      formatters: ["html", "epub"],
+      extras: ["guides/overview.md", "guides/HTTPS.md"],
+      groups_for_extras: [Guides: ~r/guides\/[^\/]+\.md/]
     ]
   end
 

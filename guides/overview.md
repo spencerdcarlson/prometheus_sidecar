@@ -1,4 +1,4 @@
-# PrometheusSidecar
+# Overview
 
 A Simple web server (ranch) that allows your application to be scraped by prometheus
 
@@ -38,4 +38,4 @@ config :prometheus_sidecar, port: 5001
 ```
 
 ## HTTPS
-See the [HTTPS Guide](./guides/https.md)
+See the [HTTPS Guide](./https.html)
