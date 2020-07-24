@@ -7,7 +7,6 @@ use Mix.Config
 #  |> Path.expand()
 #
 # config :prometheus_sidecar,
-#  scheme: :https,
 #  https: [
 #    keyfile: "#{priv_dir}/dev.key",
 #    certfile: "#{priv_dir}/dev.crt"
