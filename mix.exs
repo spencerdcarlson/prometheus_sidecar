@@ -35,8 +35,8 @@ defmodule PrometheusSidecar.MixProject do
   defp docs() do
     [
       source_ref: "v#{@version}",
-      main: "readme",
-      extras: ["README.md","guides/HTTPS.md"]
+      main: "Overview",
+      extras: ["guides/Overview.md", "guides/HTTPS.md"]
     ]
   end
 
