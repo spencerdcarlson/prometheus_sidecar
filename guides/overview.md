@@ -37,5 +37,7 @@ PROMETHEUS_SIDECAR_PORT=5001
 config :prometheus_sidecar, port: 5001
 ```
 
+See the `PrometheusSidecar.Env` module for more details.
+
 ## HTTPS
 See the [HTTPS Guide](./https.html)

@@ -1,9 +1,16 @@
 defmodule PrometheusSidecar.Endpoint do
-  @moduledoc false
+  @moduledoc """
+  Main controller
+
+  Exposes the following endpoints:
+    * /metrics
+    * /available
+    * /health
+  """
 
   use Plug.Router
-  # Makes "/metrics" endpoint available.
-  # This plug must come before :match and :dispatch otherwise it will attempt to handle all endpoints
+  # The PrometheusSidecar.PlugExporter plug must come before :match and :dispatch
+  # otherwise it will attempt to handle all endpoints
   # See https://hexdocs.pm/prometheus_plugs/Prometheus.PlugExporter.html#content on how to configure
   # a custom endpoint or basic auth
   plug(PrometheusSidecar.PlugExporter)

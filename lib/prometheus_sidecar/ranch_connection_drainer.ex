@@ -1,21 +1,7 @@
 defmodule RanchConnectionDrainer do
   @moduledoc """
-  https://github.com/derekkraan/ranch_connection_drainer
-  Drain connections before shutting down.
-
-  If your Phoenix endpoint is `MyPhoenix.Endpoint`, and you are running your server on http, then the correct value is `MyPhoenix.Endpoint.HTTP`. If you are running https, then you would use `MyPhoenix.Endpoint.HTTPS`.
-
-  To add this to your application, simply add `{RanchConnectionDrainer, [ranch_ref: MyPhoenix.Endpoint.HTTP, shutdown: 10_000]}` to the line *below* `MyPhoenix.Endpoint` in your Application file.
-
-  Example:
-
-  ```
-  children = [
-    MyPhoenixProject.Endpoint,
-    {RanchConnectionDrainer, ranch_ref: MyPhoenixProject.Endpoint.HTTP, shutdown: 30_000}
-  ]
-  Supervisor.init(children, opts)
-  ```
+  Drains connections before shutting down.
+  See the [ranch_connection_drainer](https://hex.pm/packages/ranch_connection_drainer)
   """
 
   use GenServer
