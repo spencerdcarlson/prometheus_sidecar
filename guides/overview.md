@@ -15,20 +15,20 @@ end
 ```
 
 ## Configuration
-By default, Prometheus Sidecar will start a simple non-secure (http) web server on [http://localhost:5001](http://localhost:5001) with
+There are no required configurations. By default, Prometheus Sidecar will start a simple non-secure (http) web server on [http://localhost:5001](http://localhost:5001) with
 the following endpoints:
 * [/metrics](http://localhost:5001/metrics) 
 * [/available](http://localhost:5001/available) 
 * [/health](http://localhost:5001/health) 
 
-For advanced configuration you have the following options:
+### Advanced Configuration Options
 
 | System Env                            | Elixir config     | Default | Description                        |
 | ------------------------------------- |-------------------| --------| ---------------------------------- |
-| `PROMETHEUS_SIDECAR_PORT`             | `:port`           | `5001`  | Change the default port            |
-| `PROMETHEUS_SIDECAR_ENABLE_SERVER`    | `:enable_server`  | `true`  | Do not start up the server. Similar to a `runtime: false` configuration, but allows for different values per environment. |
-| `PROMETHEUS_SIDECAR_MAX_CONNECTIONS`  | `:max_connections`| `16_384`| Max connections. Same as [Plug.Cowboy's](https://hexdocs.pm/plug_cowboy/Plug.Cowboy.html) `:transport_options` value |
-|  N/A                                  | `:https`          | `[]`    | Enables HTTPS and expects cert files. |
+| `PROMETHEUS_SIDECAR_PORT`             | `:port`           | `5001`  | Change the default port.           |
+| `PROMETHEUS_SIDECAR_ENABLE_SERVER`    | `:enable_server`  | `true`  | Do not start up the server.        |
+| `PROMETHEUS_SIDECAR_MAX_CONNECTIONS`  | `:max_connections`| `16_384`| Max connections.                   |
+|  N/A                                  | `:https`          | `[]`    | Enables HTTPS.                     |
 For each option you can use either the System environment approach, or the elixir config approach:
 ```bash
 PROMETHEUS_SIDECAR_PORT=5001
@@ -38,6 +38,23 @@ config :prometheus_sidecar, port: 5001
 ```
 
 See the `PrometheusSidecar.Env` module for more details.
+ 
+### Prometheus Plugs Configuration 
+Prometheus Sidecar internally uses [prometheus_plugs](https://hex.pm/packages/prometheus_plugs), which greatly
+facilitates setting any [prometheus configurations](https://github.com/deadtrickster/prometheus.erl#configuration). 
+See the [configuration documentation](https://hexdocs.pm/prometheus_plugs/Prometheus.PlugExporter.html#module-configuration)
+for details.
+
+Here is an example of how to change `/metrics` to `/stats` and require basic auth to access the endpoint
+```elixir
+config :prometheus, PrometheusSidecar.PlugExporter, 
+  path: "/stats",
+  format: :auto,
+  registry: :default,
+  auth: {:basic, "username", "password"}
+``` 
+
+_Note for the above changes to take effect, run `mix deps.clean prometheus_sidecar && mix deps.get`_
 
 ## HTTPS
 See the [HTTPS Guide](./https.html)

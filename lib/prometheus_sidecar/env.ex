@@ -26,7 +26,8 @@ defmodule PrometheusSidecar.Env do
   @doc """
   Enable the ranch web server.
 
-  This option is helpful when you do not want to report metrics in the `:dev` or `:test` environment
+  This option is similar to setting `runtime: false` for the dependency
+  in your mix.exs file but allows you to start and stop the server depending on the environment.
 
   default value: `true`
 
@@ -84,6 +85,8 @@ defmodule PrometheusSidecar.Env do
   Sets max number of connections allowed on the ranch server.
 
   default value: `16_384`
+
+  See [Plug.Cowboy's](https://hexdocs.pm/plug_cowboy/Plug.Cowboy.html) `:transport_options`
 
   Set using System env or elixir config:
 
