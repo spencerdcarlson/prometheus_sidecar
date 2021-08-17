@@ -76,7 +76,7 @@ defmodule PrometheusSidecar.Application do
           {:_, [], [{:_, [], Plug.Cowboy.Handler, {PrometheusSidecar.Endpoint, {:ok, []}}}]}
         ]
       },
-      stream_handlers: [Plug.Cowboy.Stream]
+      stream_handlers: [:cowboy_compress_h, :cowboy_telemetry_h, :cowboy_stream_h]
     }
   end
 

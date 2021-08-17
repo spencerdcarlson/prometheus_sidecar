@@ -9,7 +9,7 @@ To install Prometheus Sidecar, just add an entry to your mix.exs:
 ```elixir
 def deps do
   [
-    {:prometheus_sidecar, "~> 0.1"}
+    {:prometheus_sidecar, "~> 1.0"}
   ]
 end
 ```
