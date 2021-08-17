@@ -1,7 +1,7 @@
 defmodule PrometheusSidecar.MixProject do
   use Mix.Project
 
-  @version "0.1.2"
+  @version "1.0.0"
 
   def project do
     [
@@ -57,7 +57,7 @@ defmodule PrometheusSidecar.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:plug_cowboy, "~> 2.0"},
+      {:plug_cowboy, "~> 2.4"},
       {:ranch, "~> 1.7"},
       {:prometheus_plugs, "~> 1.1"},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
